@@ -7,6 +7,7 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -19,7 +20,11 @@ import com.example.movieapp.model.Response.Popular
 import com.example.movieapp.model.Response.TopRated
 import com.example.movieapp.model.Response.Trending
 import com.example.movieapp.model.Response.UpComing
+import com.example.movieapp.viewmodel.NowPlayingViewModel
+import com.example.movieapp.viewmodel.PopularViewModel
+import com.example.movieapp.viewmodel.TopRatedViewModel
 import com.example.movieapp.viewmodel.TrendingViewModel
+import com.example.movieapp.viewmodel.UpcomingViewModel
 
 @Composable
 fun HomeScreen(
@@ -30,6 +35,10 @@ fun HomeScreen(
     topRateds: List<TopRated>,
     upcomings: List<UpComing>,
     trendingViewModel: TrendingViewModel,
+    nowPlayingViewModel: NowPlayingViewModel,
+    popularViewModel: PopularViewModel,
+    topRatedViewModel: TopRatedViewModel,
+    upComingViewModel: UpcomingViewModel,
     apiKey: String,
     onDetailClick: (String) -> Unit,
     onBackClick: () -> Unit
@@ -40,6 +49,12 @@ fun HomeScreen(
         NavItems("Ho so",Icons.Default.Person),
     )
     var selectIndex by rememberSaveable { mutableStateOf(0) }
+    LaunchedEffect(Unit) {
+        nowPlayingViewModel.getNowPlaying(apiKey)
+        popularViewModel.getPopular(apiKey)
+        topRatedViewModel.getTopRated(apiKey)
+        upComingViewModel.getUpcoming(apiKey)
+    }
     Scaffold(
         bottomBar = {
             CustomFloatingBottomBar(

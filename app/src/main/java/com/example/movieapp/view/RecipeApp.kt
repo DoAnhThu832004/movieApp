@@ -62,6 +62,10 @@ fun RecipeApp(
                 topRateds = topRateds,
                 upcomings = upcomings,
                 trendingViewModel = trendingViewModel,
+                nowPlayingViewModel = nowPlayingViewModel,
+                popularViewModel = popularViewModel,
+                topRatedViewModel = topRatedViewModel,
+                upComingViewModel = upComingViewModel,
                 apiKey = apiKey,
                 onDetailClick = { trendId ->
                     navController.navigate(Screen.DetailTrendScreen.createRoute(trendId.toInt()))
