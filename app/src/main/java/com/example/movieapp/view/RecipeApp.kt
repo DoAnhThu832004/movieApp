@@ -106,7 +106,10 @@ fun RecipeApp(
                 DetailCharactorScreen(
                     personId = personId,
                     apiKey = apiKey,
-                    personViewModel = personViewModel
+                    personViewModel = personViewModel,
+                    onBackClick = {
+                        navController.popBackStack()
+                    }
                 )
             }
         }

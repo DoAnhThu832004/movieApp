@@ -24,12 +24,12 @@ import coil.compose.rememberAsyncImagePainter
 import com.example.movieapp.model.Constants
 import com.example.movieapp.viewmodel.PersonViewModel
 
-@SuppressLint("RememberReturnType")
 @Composable
 fun DetailCharactorScreen(
     personId: String,
     apiKey: String,
-    personViewModel: PersonViewModel
+    personViewModel: PersonViewModel,
+    onBackClick: () -> Unit
 ) {
     val personDetailState = personViewModel.personDetailState.value
     val personDetail = personDetailState.personsDetail
@@ -52,7 +52,9 @@ fun DetailCharactorScreen(
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
                 IconButton(
-                    onClick = {}
+                    onClick = {
+                        onBackClick()
+                    }
                 ) {
                     Icon(
                         imageVector = Icons.Default.ArrowBackIosNew,
@@ -77,9 +79,13 @@ fun DetailCharactorScreen(
         }
         item {
             if (personDetail != null) {
-                Text(
-                    text = personDetail.name
-                )
+                Text(text = personDetail.name)
+                // Thêm các dòng dưới đây để kiểm tra thông tin khác
+                Text(text = "Birthday: ${personDetail.birthday ?: "No data"}")
+                Text(text = "Biography: ${personDetail.biography ?: "No data"}")
+            } else {
+                // Hiển thị thông báo nếu đang tải hoặc không có dữ liệu
+                Text(text = "Đang tải dữ liệu...")
             }
         }
     }

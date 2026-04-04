@@ -13,6 +13,7 @@ import com.example.movieapp.model.Response.UpComing
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 
@@ -46,10 +47,10 @@ interface ApiService {
     suspend fun getPerson(
         @Query("api_key") apiKey: String
     ): ApiResponse<Person>
-    @GET("person/{personId}")
+    @GET("person/{person_id}")
     suspend fun getPersonDetail(
         @Query("api_key") apiKey: String,
-        @Query("personId") personId: Int
+        @Path("person_id") personId: Int
     ): PersonDetail
 }
 private const val BASE_URL = "https://api.themoviedb.org/3/"
