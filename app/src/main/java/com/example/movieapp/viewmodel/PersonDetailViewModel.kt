@@ -21,7 +21,7 @@ class PersonDetailViewModel(
                 error = null
             )
             try {
-                val response = apiService.getPersonDetail(apiKey, personId)
+                val response = apiService.getPersonDetail(personId,apiKey)
                 _personDetailState.value = _personDetailState.value.copy(
                     personsDetail = response,
                     isLoading = false,

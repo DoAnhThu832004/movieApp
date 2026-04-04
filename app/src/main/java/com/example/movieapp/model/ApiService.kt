@@ -49,8 +49,8 @@ interface ApiService {
     ): ApiResponse<Person>
     @GET("person/{person_id}")
     suspend fun getPersonDetail(
-        @Query("api_key") apiKey: String,
-        @Path("person_id") personId: Int
+        @Path("person_id") personId: Int,
+        @Query("api_key") apiKey: String
     ): PersonDetail
 }
 private const val BASE_URL = "https://api.themoviedb.org/3/"
