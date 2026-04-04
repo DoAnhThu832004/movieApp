@@ -22,19 +22,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.example.movieapp.model.Constants
+import com.example.movieapp.viewmodel.PersonDetailViewModel
 import com.example.movieapp.viewmodel.PersonViewModel
 
 @Composable
 fun DetailCharactorScreen(
     personId: String,
     apiKey: String,
-    personViewModel: PersonViewModel,
+    personDetailViewModel: PersonDetailViewModel,
     onBackClick: () -> Unit
 ) {
-    val personDetailState = personViewModel.personDetailState.value
+    val personDetailState = personDetailViewModel.personDetailState.value
     val personDetail = personDetailState.personsDetail
     LaunchedEffect(personId) {
-        personViewModel.getPersonDetail(
+        personDetailViewModel.getPersonDetail(
             apiKey = apiKey,
             personId = personId.toInt()
         )

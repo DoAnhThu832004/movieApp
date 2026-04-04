@@ -12,6 +12,8 @@ import com.example.movieapp.view.general.HomeScreen
 import com.example.movieapp.view.trending.DetailTrendingScreen
 import com.example.movieapp.viewmodel.NowPLayingViewModelFactory
 import com.example.movieapp.viewmodel.NowPlayingViewModel
+import com.example.movieapp.viewmodel.PersonDetailViewModel
+import com.example.movieapp.viewmodel.PersonDetailViewModelFactory
 import com.example.movieapp.viewmodel.PersonViewModel
 import com.example.movieapp.viewmodel.PersonViewModelFactory
 import com.example.movieapp.viewmodel.PopularViewModel
@@ -27,7 +29,8 @@ import com.example.movieapp.viewmodel.UpcomingViewModelFactory
 fun RecipeApp(
     navController: NavHostController
 ) {
-    val apiKey: String = "0e7d7148db620788481ce0c35b58fefd"
+    val apiKey
+    = "0e7d7148db620788481ce0c35b58fefd"
     val trendingViewModel : TrendingViewModel = viewModel(
         factory = TrendingViewModelFactory(apiService)
     )
@@ -46,6 +49,9 @@ fun RecipeApp(
     val personViewModel: PersonViewModel = viewModel(
         factory = PersonViewModelFactory(apiService)
     )
+    val personDetailViewModel: PersonDetailViewModel = viewModel(
+        factory = PersonDetailViewModelFactory(apiService)
+    )
     val personState by personViewModel.personState
     val persons = personState.persons ?: emptyList()
     val trendState by trendingViewModel.trendState
@@ -58,6 +64,7 @@ fun RecipeApp(
     val topRateds = topRatedState.topRated ?: emptyList()
     val upComingState by upComingViewModel.upComingState
     val upcomings = upComingState.upcoming ?: emptyList()
+
     NavHost(
         navController = navController,
         startDestination = Screen.HomeScreen.route
@@ -106,7 +113,7 @@ fun RecipeApp(
                 DetailCharactorScreen(
                     personId = personId,
                     apiKey = apiKey,
-                    personViewModel = personViewModel,
+                    personDetailViewModel = personDetailViewModel,
                     onBackClick = {
                         navController.popBackStack()
                     }

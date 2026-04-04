@@ -6,39 +6,37 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.movieapp.model.ApiService
-import com.example.movieapp.model.Response.Person
 import com.example.movieapp.model.Response.PersonDetail
 import kotlinx.coroutines.launch
 
-class PersonViewModel(
+class PersonDetailViewModel(
     private val apiService: ApiService
 ): ViewModel() {
-    private val _personState = mutableStateOf(PersonState())
-    val personState: State<PersonState> = _personState
-
-    fun getPerson(apiKey: String) {
+    private val _personDetailState = mutableStateOf(PersonDetailState())
+    val personDetailState: State<PersonDetailState> = _personDetailState
+    fun getPersonDetail(apiKey: String, personId: Int) {
         viewModelScope.launch {
-            _personState.value = _personState.value.copy(
+            _personDetailState.value = _personDetailState.value.copy(
                 isLoading = true,
                 error = null
             )
             try {
-                val response = apiService.getPerson(apiKey)
-                _personState.value = _personState.value.copy(
-                    persons = response.results,
+                val response = apiService.getPersonDetail(apiKey, personId)
+                _personDetailState.value = _personDetailState.value.copy(
+                    personsDetail = response,
                     isLoading = false,
                     error = null
                 )
             } catch (e: Exception) {
-                _personState.value = _personState.value.copy(
+                _personDetailState.value = _personDetailState.value.copy(
                     isLoading = false,
                     error = e.message
                 )
             }
         }
     }
-    data class PersonState(
-        val persons: List<Person>? = null,
+    data class PersonDetailState(
+        val personsDetail: PersonDetail? = null,
         val isLoading: Boolean = false,
         val error: String? = null
     )
