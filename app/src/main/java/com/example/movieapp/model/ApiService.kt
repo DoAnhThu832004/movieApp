@@ -1,8 +1,11 @@
 package com.example.movieapp.model
 
 import com.example.movieapp.model.Response.ApiResponse
+import com.example.movieapp.model.Response.Collection
 import com.example.movieapp.model.Response.NowPlaying
 import com.example.movieapp.model.Response.NowResponse
+import com.example.movieapp.model.Response.Person
+import com.example.movieapp.model.Response.PersonDetail
 import com.example.movieapp.model.Response.Popular
 import com.example.movieapp.model.Response.TopRated
 import com.example.movieapp.model.Response.Trending
@@ -34,7 +37,20 @@ interface ApiService {
     suspend fun getUpcoming(
         @Query("api_key") apiKey: String
     ): NowResponse<UpComing>
-
+    @GET("collection/{collectionId}")
+    suspend fun getCollection(
+        @Query("api_key") apiKey: String,
+        @Query("collectionId") collectionId: Int
+    ): Collection
+    @GET("person/popular")
+    suspend fun getPerson(
+        @Query("api_key") apiKey: String
+    ): ApiResponse<Person>
+    @GET("person/{personId}")
+    suspend fun getPersonDetail(
+        @Query("api_key") apiKey: String,
+        @Query("personId") personId: Int
+    ): PersonDetail
 }
 private const val BASE_URL = "https://api.themoviedb.org/3/"
 val retrofit: Retrofit = Retrofit.Builder()

@@ -7,10 +7,13 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.movieapp.model.apiService
+import com.example.movieapp.view.charactor.DetailCharactorScreen
 import com.example.movieapp.view.general.HomeScreen
 import com.example.movieapp.view.trending.DetailTrendingScreen
 import com.example.movieapp.viewmodel.NowPLayingViewModelFactory
 import com.example.movieapp.viewmodel.NowPlayingViewModel
+import com.example.movieapp.viewmodel.PersonViewModel
+import com.example.movieapp.viewmodel.PersonViewModelFactory
 import com.example.movieapp.viewmodel.PopularViewModel
 import com.example.movieapp.viewmodel.PopularViewModelFactory
 import com.example.movieapp.viewmodel.TopRatedViewModel
@@ -40,6 +43,11 @@ fun RecipeApp(
     val upComingViewModel: UpcomingViewModel = viewModel(
         factory = UpcomingViewModelFactory(apiService)
     )
+    val personViewModel: PersonViewModel = viewModel(
+        factory = PersonViewModelFactory(apiService)
+    )
+    val personState by personViewModel.personState
+    val persons = personState.persons ?: emptyList()
     val trendState by trendingViewModel.trendState
     val trends = trendState.trendingMovies ?: emptyList()
     val nowPlayingState by nowPlayingViewModel.nowPlayingState
@@ -57,6 +65,7 @@ fun RecipeApp(
         composable(route = Screen.HomeScreen.route) {
             HomeScreen(
                 trends = trends,
+                persons = persons,
                 nowPlayings = nowPlayings,
                 populars = populars,
                 topRateds = topRateds,
@@ -66,12 +75,16 @@ fun RecipeApp(
                 popularViewModel = popularViewModel,
                 topRatedViewModel = topRatedViewModel,
                 upComingViewModel = upComingViewModel,
+                personViewModel = personViewModel,
                 apiKey = apiKey,
                 onDetailClick = { trendId ->
                     navController.navigate(Screen.DetailTrendScreen.createRoute(trendId.toInt()))
                 },
                 onBackClick = {
                     navController.popBackStack()
+                },
+                onCharactorClick = { personId ->
+                    navController.navigate(Screen.DetailCharactorScreen.createRoute(personId))
                 }
             )
         }
@@ -84,6 +97,16 @@ fun RecipeApp(
                     onBackClick = {
                         navController.popBackStack()
                     }
+                )
+            }
+        }
+        composable(route = Screen.DetailCharactorScreen.route) {
+            val personId = it.arguments?.getString("personId")
+            if (personId != null) {
+                DetailCharactorScreen(
+                    personId = personId,
+                    apiKey = apiKey,
+                    personViewModel = personViewModel
                 )
             }
         }

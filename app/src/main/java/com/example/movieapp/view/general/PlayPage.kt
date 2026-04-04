@@ -245,6 +245,13 @@ fun PlayPage(
                         is UpComing -> item.vote_average
                         else -> 0.0
                     }
+                    val movieId = when(item) {
+                        is NowPlaying -> item.id
+                        is Popular -> item.id
+                        is TopRated -> item.id
+                        is UpComing -> item.id
+                        else -> 0
+                    }
 
                     val fullImageUrl = "${Constants.IMAGE_BASE_URL}${movieImage}"
 

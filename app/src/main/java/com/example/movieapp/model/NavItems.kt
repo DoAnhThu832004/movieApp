@@ -11,3 +11,8 @@ data class TabItem(
     val label: String,
     val color: Color
 )
+data class CollectItem(
+    val name: String,
+    val id: Int,
+    val image: String
+)

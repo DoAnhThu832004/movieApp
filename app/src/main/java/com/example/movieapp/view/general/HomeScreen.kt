@@ -16,11 +16,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.movieapp.model.NavItems
 import com.example.movieapp.model.Response.NowPlaying
+import com.example.movieapp.model.Response.Person
 import com.example.movieapp.model.Response.Popular
 import com.example.movieapp.model.Response.TopRated
 import com.example.movieapp.model.Response.Trending
 import com.example.movieapp.model.Response.UpComing
 import com.example.movieapp.viewmodel.NowPlayingViewModel
+import com.example.movieapp.viewmodel.PersonViewModel
 import com.example.movieapp.viewmodel.PopularViewModel
 import com.example.movieapp.viewmodel.TopRatedViewModel
 import com.example.movieapp.viewmodel.TrendingViewModel
@@ -30,6 +32,7 @@ import com.example.movieapp.viewmodel.UpcomingViewModel
 fun HomeScreen(
     modifier: Modifier = Modifier,
     trends: List<Trending>,
+    persons: List<Person>,
     nowPlayings: List<NowPlaying>,
     populars: List<Popular>,
     topRateds: List<TopRated>,
@@ -39,9 +42,11 @@ fun HomeScreen(
     popularViewModel: PopularViewModel,
     topRatedViewModel: TopRatedViewModel,
     upComingViewModel: UpcomingViewModel,
+    personViewModel: PersonViewModel,
     apiKey: String,
     onDetailClick: (String) -> Unit,
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
+    onCharactorClick: (Int) -> Unit
 ) {
     val navItemsList = listOf(
         NavItems("Trang chu",Icons.Default.Home),
@@ -54,6 +59,7 @@ fun HomeScreen(
         popularViewModel.getPopular(apiKey)
         topRatedViewModel.getTopRated(apiKey)
         upComingViewModel.getUpcoming(apiKey)
+        personViewModel.getPerson(apiKey)
     }
     Scaffold(
         bottomBar = {
@@ -69,6 +75,7 @@ fun HomeScreen(
             modifier = Modifier.padding(it),
             selectedIndex = selectIndex,
             trends = trends,
+            persons = persons,
             nowPlayings = nowPlayings,
             populars = populars,
             topRateds = topRateds,
@@ -76,7 +83,8 @@ fun HomeScreen(
             trendingViewModel = trendingViewModel,
             apiKey = apiKey,
             onDetailClick = onDetailClick,
-            onBackClick = onBackClick
+            onBackClick = onBackClick,
+            onCharactorClick = onCharactorClick
         )
     }
 }
@@ -85,6 +93,7 @@ fun ContentScreen(
     modifier: Modifier = Modifier,
     selectedIndex: Int,
     trends: List<Trending>,
+    persons: List<Person>,
     nowPlayings: List<NowPlaying>,
     populars: List<Popular>,
     topRateds: List<TopRated>,
@@ -92,10 +101,11 @@ fun ContentScreen(
     trendingViewModel: TrendingViewModel,
     apiKey: String,
     onDetailClick: (String) -> Unit,
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
+    onCharactorClick: (Int) -> Unit
 ) {
     when(selectedIndex) {
-        0 -> HomePage(trends = trends,trendingViewModel,apiKey, onDetailClick)
+        0 -> HomePage(trends = trends,persons = persons,trendingViewModel,apiKey, onDetailClick,onCharactorClick)
         1 -> PlayPage(
             nowPlayings = nowPlayings,
             populars = populars,
