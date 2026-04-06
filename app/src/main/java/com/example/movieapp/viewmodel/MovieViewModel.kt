@@ -1,42 +1,41 @@
 package com.example.movieapp.viewmodel
 
-import androidx.compose.runtime.Recomposer
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.example.movieapp.model.ApiService
-import com.example.movieapp.model.Response.Collection
+import com.example.movieapp.model.Response.movie.Movie
 import androidx.compose.runtime.State
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 
-class CollectionViewModel(
+class MovieViewModel(
     private val apiService: ApiService
 ): ViewModel() {
-    private val _collectionState = mutableStateOf(CollectionState())
-    val collectionState: State<CollectionState> = _collectionState
-    fun getCollection(collectionId: Int,apiKey: String) {
+    private val _movieState = mutableStateOf(MovieState())
+    val movieState: State<MovieState> = _movieState
+    fun getMovieDetail(movieId: Int, apiKey: String) {
         viewModelScope.launch {
-            _collectionState.value = _collectionState.value.copy(
+            _movieState.value = _movieState.value.copy(
                 isLoading = true,
                 error = null
             )
             try {
-                val response = apiService.getCollection(collectionId,apiKey)
-                _collectionState.value = _collectionState.value.copy(
-                    collection = response,
+                val response = apiService.getMovieDetail(movieId,apiKey)
+                _movieState.value = _movieState.value.copy(
+                    movie = response,
                     isLoading = false,
                     error = null
                 )
             } catch (e: Exception) {
-                _collectionState.value = _collectionState.value.copy(
+                _movieState.value = _movieState.value.copy(
                     isLoading = false,
                     error = e.message
                 )
             }
         }
     }
-    data class CollectionState(
-        val collection: Collection? = null,
+    data class MovieState(
+        val movie: Movie? = null,
         val isLoading: Boolean = false,
         val error: String? = null
     )

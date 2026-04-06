@@ -8,8 +8,14 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.movieapp.model.apiService
 import com.example.movieapp.view.charactor.DetailCharactorScreen
+import com.example.movieapp.view.collection.DetailCollectionScreen
 import com.example.movieapp.view.general.HomeScreen
+import com.example.movieapp.view.movie.DetailMovieScreen
 import com.example.movieapp.view.trending.DetailTrendingScreen
+import com.example.movieapp.viewmodel.CollectionViewModel
+import com.example.movieapp.viewmodel.CollectionViewModelFactory
+import com.example.movieapp.viewmodel.MovieViewModel
+import com.example.movieapp.viewmodel.MovieViewModelFactory
 import com.example.movieapp.viewmodel.NowPLayingViewModelFactory
 import com.example.movieapp.viewmodel.NowPlayingViewModel
 import com.example.movieapp.viewmodel.PersonDetailViewModel
@@ -52,6 +58,12 @@ fun RecipeApp(
     val personDetailViewModel: PersonDetailViewModel = viewModel(
         factory = PersonDetailViewModelFactory(apiService)
     )
+    val collectionViewModel: CollectionViewModel = viewModel(
+        factory = CollectionViewModelFactory(apiService)
+    )
+    val movieViewModel: MovieViewModel = viewModel(
+        factory = MovieViewModelFactory(apiService)
+    )
     val personState by personViewModel.personState
     val persons = personState.persons ?: emptyList()
     val trendState by trendingViewModel.trendState
@@ -92,6 +104,9 @@ fun RecipeApp(
                 },
                 onCharactorClick = { personId ->
                     navController.navigate(Screen.DetailCharactorScreen.createRoute(personId))
+                },
+                onClickDetail = {
+                    navController.navigate(Screen.DetailCollectionScreen.createRoute(it))
                 }
             )
         }
@@ -114,6 +129,35 @@ fun RecipeApp(
                     personId = personId,
                     apiKey = apiKey,
                     personDetailViewModel = personDetailViewModel,
+                    onBackClick = {
+                        navController.popBackStack()
+                    }
+                )
+            }
+        }
+        composable(route = Screen.DetailCollectionScreen.route) {
+            val collectionId = it.arguments?.getString("collectionId")
+            if (collectionId != null) {
+                DetailCollectionScreen(
+                    collectionId = collectionId,
+                    apiKey = apiKey,
+                    collectionViewModel = collectionViewModel,
+                    onBackClick = {
+                        navController.popBackStack()
+                    },
+                    onDetailMovie = { movieId ->
+                        navController.navigate(Screen.DetailMovieScreen.createRoute(movieId))
+                    }
+                )
+            }
+        }
+        composable(route = Screen.DetailMovieScreen.route) {
+            val movieId = it.arguments?.getString("movieId")
+            if (movieId != null) {
+                DetailMovieScreen(
+                    movieId = movieId.toInt(),
+                    apiKey = apiKey,
+                    movieViewModel = movieViewModel,
                     onBackClick = {
                         navController.popBackStack()
                     }

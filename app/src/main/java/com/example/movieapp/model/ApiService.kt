@@ -10,6 +10,7 @@ import com.example.movieapp.model.Response.Popular
 import com.example.movieapp.model.Response.TopRated
 import com.example.movieapp.model.Response.Trending
 import com.example.movieapp.model.Response.UpComing
+import com.example.movieapp.model.Response.movie.Movie
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
@@ -40,8 +41,8 @@ interface ApiService {
     ): NowResponse<UpComing>
     @GET("collection/{collectionId}")
     suspend fun getCollection(
-        @Query("api_key") apiKey: String,
-        @Query("collectionId") collectionId: Int
+        @Path("collectionId") collectionId: Int,
+        @Query("api_key") apiKey: String
     ): Collection
     @GET("person/popular")
     suspend fun getPerson(
@@ -52,6 +53,11 @@ interface ApiService {
         @Path("person_id") personId: Int,
         @Query("api_key") apiKey: String
     ): PersonDetail
+    @GET("movie/{movie_id}")
+    suspend fun getMovieDetail(
+        @Path("movie_id") movieId: Int,
+        @Query("api_key") apiKey: String
+    ): Movie
 }
 private const val BASE_URL = "https://api.themoviedb.org/3/"
 val retrofit: Retrofit = Retrofit.Builder()

@@ -46,7 +46,8 @@ fun HomeScreen(
     apiKey: String,
     onDetailClick: (String) -> Unit,
     onBackClick: () -> Unit,
-    onCharactorClick: (Int) -> Unit
+    onCharactorClick: (Int) -> Unit,
+    onClickDetail: (Int) -> Unit
 ) {
     val navItemsList = listOf(
         NavItems("Trang chu",Icons.Default.Home),
@@ -84,7 +85,8 @@ fun HomeScreen(
             apiKey = apiKey,
             onDetailClick = onDetailClick,
             onBackClick = onBackClick,
-            onCharactorClick = onCharactorClick
+            onCharactorClick = onCharactorClick,
+            onClickDetail = onClickDetail
         )
     }
 }
@@ -102,10 +104,11 @@ fun ContentScreen(
     apiKey: String,
     onDetailClick: (String) -> Unit,
     onBackClick: () -> Unit,
-    onCharactorClick: (Int) -> Unit
+    onCharactorClick: (Int) -> Unit,
+    onClickDetail: (Int) -> Unit
 ) {
     when(selectedIndex) {
-        0 -> HomePage(trends = trends,persons = persons,trendingViewModel,apiKey, onDetailClick,onCharactorClick)
+        0 -> HomePage(trends = trends,persons = persons,trendingViewModel,apiKey, onDetailClick,onCharactorClick,onClickDetail)
         1 -> PlayPage(
             nowPlayings = nowPlayings,
             populars = populars,

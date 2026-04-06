@@ -25,14 +25,15 @@ import com.example.movieapp.model.Constants
 @Composable
 fun CollectionCard(
     collectionName: String,
-    image: String
+    image: String,
+    onClickDetail: () -> Unit
 ) {
     Box(
         modifier = Modifier
             .width(160.dp)
             .height(220.dp)
             .padding(8.dp)
-            .clickable { },
+            .clickable { onClickDetail()},
         contentAlignment = Alignment.Center
     ) {
         Surface(

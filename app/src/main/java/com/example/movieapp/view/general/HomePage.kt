@@ -33,7 +33,8 @@ fun HomePage(
     trendingViewModel: TrendingViewModel,
     apiKey: String,
     onDetailClick: (String) -> Unit,
-    onCharactorClick: (Int) -> Unit
+    onCharactorClick: (Int) -> Unit,
+    onClickDetail: (Int) -> Unit
 ) {
     LaunchedEffect(Unit) {
         trendingViewModel.getTrending(apiKey)
@@ -106,7 +107,10 @@ fun HomePage(
                 items(featuredCollections) { collection ->
                     CollectionCard(
                         collectionName = collection.name,
-                        image = collection.image
+                        image = collection.image,
+                        onClickDetail = {
+                            onClickDetail(collection.id)
+                        }
                     )
                 }
             }
