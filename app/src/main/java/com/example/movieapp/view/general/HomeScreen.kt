@@ -24,6 +24,7 @@ import com.example.movieapp.model.Response.UpComing
 import com.example.movieapp.viewmodel.NowPlayingViewModel
 import com.example.movieapp.viewmodel.PersonViewModel
 import com.example.movieapp.viewmodel.PopularViewModel
+import com.example.movieapp.viewmodel.SearchViewModel
 import com.example.movieapp.viewmodel.TopRatedViewModel
 import com.example.movieapp.viewmodel.TrendingViewModel
 import com.example.movieapp.viewmodel.UpcomingViewModel
@@ -43,6 +44,7 @@ fun HomeScreen(
     topRatedViewModel: TopRatedViewModel,
     upComingViewModel: UpcomingViewModel,
     personViewModel: PersonViewModel,
+    searchViewModel: SearchViewModel,
     apiKey: String,
     onDetailClick: (String) -> Unit,
     onBackClick: () -> Unit,
@@ -82,6 +84,7 @@ fun HomeScreen(
             topRateds = topRateds,
             upcomings = upcomings,
             trendingViewModel = trendingViewModel,
+            searchViewModel = searchViewModel,
             apiKey = apiKey,
             onDetailClick = onDetailClick,
             onBackClick = onBackClick,
@@ -101,6 +104,7 @@ fun ContentScreen(
     topRateds: List<TopRated>,
     upcomings: List<UpComing>,
     trendingViewModel: TrendingViewModel,
+    searchViewModel: SearchViewModel,
     apiKey: String,
     onDetailClick: (String) -> Unit,
     onBackClick: () -> Unit,
@@ -108,7 +112,7 @@ fun ContentScreen(
     onClickDetail: (Int) -> Unit
 ) {
     when(selectedIndex) {
-        0 -> HomePage(trends = trends,persons = persons,trendingViewModel,apiKey, onDetailClick,onCharactorClick,onClickDetail)
+        0 -> HomePage(trends = trends,persons = persons,trendingViewModel,searchViewModel,apiKey, onDetailClick,onCharactorClick,onClickDetail)
         1 -> PlayPage(
             nowPlayings = nowPlayings,
             populars = populars,

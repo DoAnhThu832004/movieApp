@@ -23,7 +23,9 @@ import com.example.movieapp.model.Response.Person
 import com.example.movieapp.model.Response.Trending
 import com.example.movieapp.view.charactor.CharactorScreen
 import com.example.movieapp.view.collection.CollectionCard
+import com.example.movieapp.view.search.SearchBar
 import com.example.movieapp.view.trending.TrendScreen
+import com.example.movieapp.viewmodel.SearchViewModel
 import com.example.movieapp.viewmodel.TrendingViewModel
 
 @Composable
@@ -31,6 +33,7 @@ fun HomePage(
     trends: List<Trending>,
     persons: List<Person>,
     trendingViewModel: TrendingViewModel,
+    searchViewModel: SearchViewModel,
     apiKey: String,
     onDetailClick: (String) -> Unit,
     onCharactorClick: (Int) -> Unit,
@@ -56,6 +59,12 @@ fun HomePage(
             .padding(horizontal = 8.dp)
             .fillMaxSize()
     ) {
+        item {
+            SearchBar(
+                searchViewModel = searchViewModel,
+                api_key = apiKey,
+            )
+        }
         item {
             Row(
                 modifier = Modifier

@@ -24,6 +24,8 @@ import com.example.movieapp.viewmodel.PersonViewModel
 import com.example.movieapp.viewmodel.PersonViewModelFactory
 import com.example.movieapp.viewmodel.PopularViewModel
 import com.example.movieapp.viewmodel.PopularViewModelFactory
+import com.example.movieapp.viewmodel.SearchViewModel
+import com.example.movieapp.viewmodel.SearchViewModelFactory
 import com.example.movieapp.viewmodel.TopRatedViewModel
 import com.example.movieapp.viewmodel.TopRatedViewModelFactory
 import com.example.movieapp.viewmodel.TrendingViewModel
@@ -64,6 +66,9 @@ fun RecipeApp(
     val movieViewModel: MovieViewModel = viewModel(
         factory = MovieViewModelFactory(apiService)
     )
+    val searchViewModel: SearchViewModel = viewModel(
+        factory = SearchViewModelFactory(apiService)
+    )
     val personState by personViewModel.personState
     val persons = personState.persons ?: emptyList()
     val trendState by trendingViewModel.trendState
@@ -95,6 +100,7 @@ fun RecipeApp(
                 topRatedViewModel = topRatedViewModel,
                 upComingViewModel = upComingViewModel,
                 personViewModel = personViewModel,
+                searchViewModel = searchViewModel,
                 apiKey = apiKey,
                 onDetailClick = { trendId ->
                     navController.navigate(Screen.DetailTrendScreen.createRoute(trendId.toInt()))
